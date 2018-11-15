@@ -1,0 +1,34 @@
+html {
+  background-color: #242C2C;
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+.signup-form-container {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#signup-form input {
+  display: block;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+#signup-form {
+  text-align: center;
+}
+
+.button {
+  padding: 10px;
+  background-color: #53049F;
+  color: black;
+  border-radius: 15px;
+  border: none;
+  font-size: 18px;
+}
