@@ -1,26 +1,27 @@
 html {
-  background-color: #242C2C;
+  background-color: #232b2b;
   height: 100%;
   margin: 0;
 }
 
 body {
-  height: 100%;
+  height: 95%;
   margin: 0;
 }
 
-.signup-form-container {
+.form-wrapper {
   height: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-#signup-form {
+.form {
   text-align: center;
 }
 
-#signup-form input {
+.form input {
   display: block;
   padding: 10px;
   margin-bottom: 15px;
@@ -53,16 +54,131 @@ body {
   width: 75%;
   overflow-y: scroll;
   clear: right;
+  background-color: #353839;
 }
 
 .add_channel_container{
-  text-align: right;
+  text-align: center;
 }
 
 .add_channel{
   padding: 10px;
+  margin-top: 10px;
   font-size: 14px;
-  border-radius: 50%;
+  border-radius: 5px;
   border: none;
-  background-color: blue;
+  background-color: #6CAC44;
+}
+
+.error {
+  background-color: #DC3C4C;
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid white;
+}
+
+header {
+  background-color: #414a4c;
+  text-align: right;
+  border-bottom: solid;
+  height: 5%;
+}
+
+#navbar {
+  list-style-type: none;
+  padding: 7px;
+  margin: 0;
+  overflow: hidden;
+}
+
+#navbar li {
+  display: inline;
+}
+
+#navbar a {
+  color: white;
+  text-decoration: none;
+  padding: 5px 5px;
+}
+
+#navbar a:hover {
+    background-color: #555;
+    color: white;
+}
+
+header ul {
+  margin: 0;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    text-align: center;
+}
+
+/* Modal Content */
+.modal-content {
+  border-radius: 5px;
+    background-color: #414a4c;
+    border: none!important;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.modal-content input{
+  background-color: white;
+  text-align: center;
+}
+
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* scrollbars */
+/* width */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #3b444b;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: grey;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+#channel-name {
+  padding: 5px;
+  border-radius: 2px;
 }

@@ -6,7 +6,15 @@
     <title>Flack</title>
   </head>
   <body>
+    <header>
+      <ul id="navbar">
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        <li><a href="{{ url_for('signup') }}">Signup</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      </ul>
+    </header>
     {% block body %}
     {% endblock body %}
+    <script type="text/javascript" src="/static/scripts.js"></script>
   </body>
 </html>

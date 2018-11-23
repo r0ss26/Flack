@@ -1,13 +1,26 @@
 {% extends "layout.html" %}
   {% block body %}
+
+  <!-- Modal for adding channels -->
+  <div id="channel-modal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <input type="text" name="channel-name" id="channel-name"" placeholder="Channel Name">
+      <button type="submit" for="channel-name" name="channel-button" class="button">Create</button>
+    </div>
+
+  </div>
+
     <div id="wrapper">
       <div class="channel_list">
         <div class="add_channel_container">
-            <button type="submit" class="container add_channel">+</button>
+            <button id="add-channel" name="add-channel" type="submit" class="container add_channel">+ Add Channel</button>
         </div>
       </div>
       <div class="channel_body">
-        fdsgsdfg
+        // TODO
       </div>
     </div>
   {% endblock %}

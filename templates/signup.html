@@ -1,13 +1,14 @@
 {% extends "layout.html" %}
   {% block body %}
-    <div class="form-wrapper login-form-container">
+    <div class="form-wrapper signup-form-container">
       {% if error %}
       <p class=error><strong>Error:</strong> {{ error }}
       {% endif %}
-      <form class="form login-form" method="post">
+      <form class="form signup-form" method="post">
         <input type="text" id="username" name="username" placeholder="Username">
         <input type="password" id="Password" name="password" placeholder="Password">
-        <button type="submit" class="button" name="signup-button">Login</button>
+        <input type="password" id="Confirm-Password" name="confirm-password" placeholder="Confirm Password">
+        <button type="submit" class="button" name="signup-button">Sign Up</button>
       </form>
     </div>
   {% endblock %}
