@@ -3,14 +3,21 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <title>Flack</title>
   </head>
   <body>
+    <!-- Navigation bar -->
     <header>
       <ul id="navbar">
+      {% if session.username %}
+        <li><span id="username">{{ session.username }}</span></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      {% else %}
         <li><a href="{{ url_for('login') }}">Login</a></li>
         <li><a href="{{ url_for('signup') }}">Signup</a></li>
-        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      {% endif %}
       </ul>
     </header>
     {% block body %}

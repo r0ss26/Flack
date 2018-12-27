@@ -2,3 +2,5 @@ __pycache__
 .vscode
 .env
 project_2
+.swp
+activate.txt

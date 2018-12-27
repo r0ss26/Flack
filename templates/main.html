@@ -1,26 +1,42 @@
 {% extends "layout.html" %}
-  {% block body %}
-
+{% block body %}
   <!-- Modal for adding channels -->
   <div id="channel-modal" class="modal">
-
     <!-- Modal content -->
     <div class="modal-content">
       <span class="close">&times;</span>
-      <input type="text" name="channel-name" id="channel-name"" placeholder="Channel Name">
-      <button type="submit" for="channel-name" name="channel-button" class="button">Create</button>
+      <form action="{{ url_for('display_channel', channel=channels[0]) }}" method="post">
+        <input type="text" name="channel-name" id="channel-name" placeholder="Channel Name">
+        <button id="channel_button" type="submit" for="channel-name" name="channel-button" class="button">Create</button>
+      </form>
     </div>
-
   </div>
-
     <div id="wrapper">
       <div class="channel_list">
         <div class="add_channel_container">
             <button id="add-channel" name="add-channel" type="submit" class="container add_channel">+ Add Channel</button>
         </div>
+        {% if error %}
+        <p class=error><strong>Error:</strong> {{ error }}
+        {% endif %}
+        {% for channel in channels %}
+        <div class='channel'>{{ channel }}</div>
+        {% endfor %}
       </div>
       <div class="channel_body">
-        // TODO
+        <div class="message_body">
+          {% for message in messages %}
+          <div>
+              <span>({{ message.timestamp.strftime("%Y-%m-%d %H:%M") }}) </span>
+              <span>{{ message.user.username }}: </span>
+              <span>{{ message.message }}</span>
+          </div>
+          {% endfor %}
+        </div>
+        <div class="enter-message">
+          <textarea id="message" name="message" placeholder="Type your message" rows="8" cols="120"></textarea>
+          <button id="send-message" type="submit" class="button" name="button" for="message">Send</button>
+        </div>
       </div>
     </div>
-  {% endblock %}
+{% endblock %}

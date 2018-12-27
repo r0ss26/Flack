@@ -47,6 +47,7 @@ body {
   width: 25%;
   height: 100%;
   overflow-y: scroll;
+  text-align: center;
 }
 
 .channel_body{
@@ -58,16 +59,45 @@ body {
 }
 
 .add_channel_container{
+  clear: right;
+}
+
+textarea {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    color: black;
+    background-color: ;
+
+    margin-bottom: 0;
+
+    width: 80%;
+}
+
+.message_body {
+  height: 75%;
+  overflow: scroll;
+}
+
+#send-message {
+  margin-bottom: 20px;
+}
+
+.enter-message {
+  position: absolute;
   text-align: center;
+  bottom: 0;
 }
 
 .add_channel{
   padding: 10px;
   margin-top: 10px;
+  margin-bottom: 10px;
   font-size: 14px;
   border-radius: 5px;
   border: none;
   background-color: #6CAC44;
+
 }
 
 .error {
@@ -182,3 +212,17 @@ header ul {
   padding: 5px;
   border-radius: 2px;
 }
+
+
+.channel {
+  padding: 10px;
+  background-color: #C084F6;
+  border-radius: 5px;
+  border: solid black 1px;
+  text-align: center;
+  cursor: pointer;
+}
+
+button {cursor: pointer;}
+
+a {cursor: pointer;}
