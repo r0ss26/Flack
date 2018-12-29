@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+
 {% block body %}
   <!-- Modal for adding channels -->
   <div id="channel-modal" class="modal">
@@ -17,7 +18,7 @@
             <button id="add-channel" name="add-channel" type="submit" class="container add_channel">+ Add Channel</button>
         </div>
         {% if error %}
-        <p class=error><strong>Error:</strong> {{ error }}
+        <p class=error><strong>Error:</strong> {{ error }}</p>
         {% endif %}
         {% for channel in channels %}
         <div class='channel'>{{ channel }}</div>
@@ -27,7 +28,7 @@
         <div class="message_body">
           {% for message in messages %}
           <div>
-              <span>({{ message.timestamp.strftime("%Y-%m-%d %H:%M") }}) </span>
+              <span>({{  momentjs(message.timestamp).calendar() }}) </span>
               <span>{{ message.user.username }}: </span>
               <span>{{ message.message }}</span>
           </div>

@@ -216,7 +216,7 @@ header ul {
 
 .channel {
   padding: 10px;
-  background-color: #C084F6;
+  background-color: #049BDC;
   border-radius: 5px;
   border: solid black 1px;
   text-align: center;
@@ -226,3 +226,5 @@ header ul {
 button {cursor: pointer;}
 
 a {cursor: pointer;}
+
+#message {border-radius: 5px;}

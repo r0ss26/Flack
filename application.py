@@ -1,10 +1,11 @@
 import os
-
-from flask import Flask, render_template, request, session, redirect, url_for, Session
-from flask_socketio import SocketIO, emit, join_room, leave_room, send
-from werkzeug import generate_password_hash, check_password_hash
-from database import db_session
 import re
+from pytz import timezone
+from momentjs import momentjs
+from database import db_session
+from werkzeug import generate_password_hash, check_password_hash
+from flask_socketio import SocketIO, emit, join_room, leave_room, send
+from flask import Flask, render_template, request, session, redirect, url_for, Session
 
 # Import models in order to modify database
 from models import *
@@ -12,6 +13,12 @@ from models import *
 # Initialise and configure flask application
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get('SECRET_KEY')
+app.jinja_env.globals['momentjs'] = momentjs
+
+# Make sessions permanent
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
 
 # Configure database connection
 if not os.environ.get('DATABASE_URL'):
@@ -21,31 +28,47 @@ if not os.environ.get('DATABASE_URL'):
 socketio = SocketIO(app)
 
 # Retrieve message channels from database
-channels = ['Welcome']
+channels = ['General']
 for channel in db_session.query(Channel).all():
     channels.append(channel.channel)
 
 @app.route("/")
 def index():
-    # if there is no user logged in take them to the login page
+    # if there is no user logged in take them to the signup page
     if not session.get("username"):
         return redirect(url_for("signup"))
     # if a user is logged in take them to the chatroom
     else:
-        return redirect(url_for("display_channel", channel=channels[0]))
+        # If the user has previously visited then take them to the chatroom they were last in
+        if session.get('current_channel'):
+            return redirect(url_for("display_channel", channel=session.get('current_channel')))
+        # Otherwise take them to the first channel in the list
+        else:
+            return redirect(url_for("display_channel", channel=channels[0]))
 
-# Chatrooms
-@app.route("/<channel>", methods=['GET', 'POST'])
+# Dynamic URL for different chatrooms
+@app.route("/channel/<channel>", methods=['GET', 'POST'])
 def display_channel(channel):
+
     # Request method is GET
     if request.method == 'GET':
-        # Get mesages in the current channel
+
+        # If a user is not logged in redirect them to the index route
+        # This stops users from viewing chatrooms without first signing up
+        if not session.get('userid'):
+            return redirect(url_for("index"))
+
+        # Get mesages in the current channel and pass them to the template
         messages = db_session.query(Message).filter_by(channel=channel).all()
+        session['current_channel'] = channel
+        print('###############################################################' + session['current_channel'] + '##############################################################')
         return render_template("main.html", messages=messages, channels=channels)
 
     # Otherwise request method is POST
     # User has created a new channel
     else:
+        error = None
+        
         # Get users channel name input
         channel_name = request.form.get('channel-name')
 
@@ -55,14 +78,16 @@ def display_channel(channel):
             db_session.add(new_channel)
             db_session.commit()
             channels.append(channel_name)
+
+            # Take the user back to the chatroom
+            return render_template('main.html', channels=channels)
+
         # If the channel already exists, display an error
         except:
             error = ' Channel already exists'
-            return render_template('main.html', channels=channels, error=error)
+            print(error)
+            return render_template('main.html', error=error, channels=channels)
 
-        # Take the user back to the chatroom
-        return render_template('main.html', channels=channels)
-    
 @app.route("/login", methods=["GET", "POST"])
 def login():
     # Request method is GET
@@ -71,7 +96,8 @@ def login():
         if not session.get("username"):
             return render_template("login.html")
         # if a user us logged in then take them to the chatroom
-            return redirect(url_for("display_channel", channel=channels[0]))
+        else:
+            return redirect(url_for("index"))
         
     # Otherwise request method is POST and a user has submitted login info
     else:
@@ -114,7 +140,6 @@ def login():
             print(session.get('userid'))
             return redirect(url_for('index'))
 
-
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     error = None
@@ -147,7 +172,7 @@ def signup():
         if db_session.query(User).filter_by(username = request.form.get("username")).all() == []:
 
             # If the username is availble, check if passwords match
-            if request.form.get('password') == request.form.get('confirm-password'):
+            if password == confirm_password:
 
                 # create a new user object
                 new_user = User(username=request.form.get("username"), hash=generate_password_hash(request.form.get("password")))
@@ -159,6 +184,7 @@ def signup():
                 db_session.add(new_user)
                 db_session.commit()
                 session['userid'] = db_session.query(User).filter_by(username = username).one().id
+                session['username'] = username
                 return redirect(url_for("index"))
                 
             # If the passwords dont match, show an error and prompt user to enter
@@ -175,6 +201,7 @@ def signup():
 @app.route("/logout")
 def logout():
     session.pop('username')
+    session.pop('userid')
     return redirect(url_for('login'))
 
 # Shutdown database session
