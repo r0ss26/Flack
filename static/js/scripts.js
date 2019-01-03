@@ -5,7 +5,7 @@ $(document).ready(function () {
   var room = document.location.href.split('/').pop()
 
   // Connect to websocket
-  var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port)
+  var socket = io.connect('wss:' + '//' + document.domain + ':' + location.port)
 
   /* Once the client has connected to the websocket, add functionality for the buttons
   to change channels and post message */
@@ -17,9 +17,7 @@ $(document).ready(function () {
     document.querySelectorAll('.channel').forEach(channel => {
       channel.onclick = () => {
         socket.emit('leave', { 'username': $('#username').html(), 'room': room })
-        console.log('left')
         room = channel.textContent
-        console.log('joined')
         window.location.href = room
       }
     })

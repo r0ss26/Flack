@@ -28,7 +28,7 @@ if not os.environ.get('DATABASE_URL'):
 socketio = SocketIO(app)
 
 # Retrieve message channels from database
-channels = ['General']
+channels = []
 for channel in db_session.query(Channel).all():
     channels.append(channel.channel)
 
@@ -214,16 +214,14 @@ def post(data):
 # Anounce when a user enters a chatroom
 @socketio.on('join')
 def on_join(data):
-    username = session.get('username')
     room = data['room']
+    join_room(room)
     data['message'] = 'joined the room'
     emit('announce post', data, room=room, broadcast=True)
-    join_room(room)
 
 # Anounce when a user leaves a chatroom
 @socketio.on('leave')
 def on_leave(data):
-    username = data['username']
     room = data['room']   
     data['message'] = 'has left the room' 
     emit('announce post', data, room=room, broadcast=True)
