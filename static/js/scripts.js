@@ -5,7 +5,7 @@ $(document).ready(function () {
   var room = document.location.href.split('/').pop()
 
   // Connect to websocket
-  var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port)
+  var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port, { transports: ['websocket'] })
 
   // Let the server know which room the user is in
   socket.emit('join', { 'username': $('#username').html(), 'room': room })
