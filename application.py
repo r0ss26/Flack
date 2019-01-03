@@ -7,8 +7,8 @@ from werkzeug import generate_password_hash, check_password_hash
 from flask_socketio import SocketIO, emit, join_room, leave_room, send
 from flask import Flask, render_template, request, session, redirect, url_for, Session
 
-# Import models in order to modify database
-from models import *
+# Import models in order to modify and query database
+from models import User, Channel, Message
 
 # Initialise and configure flask application
 app = Flask(__name__)
@@ -49,10 +49,8 @@ def index():
 # Dynamic URL for different chatrooms
 @app.route("/channel/<channel>", methods=['GET', 'POST'])
 def display_channel(channel):
-
     # Request method is GET
     if request.method == 'GET':
-
         # If a user is not logged in redirect them to the index route
         # This stops users from viewing chatrooms without first signing up
         if not session.get('userid'):
@@ -60,8 +58,7 @@ def display_channel(channel):
 
         # Get mesages in the current channel and pass them to the template
         messages = db_session.query(Message).filter_by(channel=channel).all()
-        session['current_channel'] = channel
-        print('###############################################################' + session['current_channel'] + '##############################################################')
+        session['current_channel']=channel
         return render_template("main.html", messages=messages, channels=channels)
 
     # Otherwise request method is POST
@@ -80,12 +77,11 @@ def display_channel(channel):
             channels.append(channel_name)
 
             # Take the user back to the chatroom
-            return render_template('main.html', channels=channels)
+            return redirect(url_for("display_channel", channel=channel_name))
 
         # If the channel already exists, display an error
         except:
             error = ' Channel already exists'
-            print(error)
             return render_template('main.html', error=error, channels=channels)
 
 @app.route("/login", methods=["GET", "POST"])
@@ -137,7 +133,6 @@ def login():
             # add the user to the current session and take them to the index page
             session['username'] = request.form.get("username")
             session['userid'] = db_session.query(User).filter_by(username = username).one().id
-            print(session.get('userid'))
             return redirect(url_for('index'))
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -157,23 +152,20 @@ def signup():
 
     # Otherwise request method is POST
     else:
-
         # Get user input
         username = request.form.get('username')
         password = request.form.get('password')
-        confirm_password = request.form.get('confirm_password')
+        confirm_password = request.form.get('confirm-password')
 
         # Check if the username is valid
-        if not re.search('^[A-Za-z0-9\_\-]+$', username):
+        if not re.search(r'^[A-Za-z0-9_-]+$', username):
             error = ' Invalid username: Must only contain characters, numbers, underscores and/or hyphens'
             return render_template('signup.html', error=error)
 
         # Check if the username is available
         if db_session.query(User).filter_by(username = request.form.get("username")).all() == []:
-
             # If the username is availble, check if passwords match
             if password == confirm_password:
-
                 # create a new user object
                 new_user = User(username=request.form.get("username"), hash=generate_password_hash(request.form.get("password")))
 
@@ -217,20 +209,22 @@ def post(data):
     new_post = Message(user_id=session.get('userid'), channel=data['room'], message=data['message'])
     db_session.add(new_post)
     db_session.commit()
-    emit('announce post', data, broadcast=True)
+    emit('announce post', data, room=data['room'], broadcast=True)
 
 # Anounce when a user enters a chatroom
 @socketio.on('join')
 def on_join(data):
     username = session.get('username')
     room = data['room']
+    data['message'] = 'joined the room'
+    emit('announce post', data, room=room, broadcast=True)
     join_room(room)
-    send(username + ' has entered the room.', room=room)
 
 # Anounce when a user leaves a chatroom
 @socketio.on('leave')
 def on_leave(data):
     username = data['username']
-    room = data['room']
+    room = data['room']   
+    data['message'] = 'has left the room' 
+    emit('announce post', data, room=room, broadcast=True)
     leave_room(room)
-    send(username + ' has left the room.', room=room)

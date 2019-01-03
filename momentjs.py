@@ -1,4 +1,5 @@
 # Source: https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-xiii-dates-and-times
+# This module defines a momentJS class for formatting date strings
 
 from jinja2 import Markup
 

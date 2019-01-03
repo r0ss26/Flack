@@ -1,3 +1,5 @@
+# This module defines the models for the sqlAlchemy ORM
+
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from database import Base

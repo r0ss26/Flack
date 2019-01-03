@@ -1,13 +1,13 @@
 {% extends "layout.html" %}
-  {% block body %}
-    <div class="form-wrapper login-form-container">
-      {% if error %}
-      <p class=error><strong>Error:</strong> {{ error }}</p>
-      {% endif %}
-      <form class="form login-form" method="post">
-        <input type="text" id="username" name="username" placeholder="Username">
-        <input type="password" id="Password" name="password" placeholder="Password">
-        <button type="submit" class="button" name="signup-button">Login</button>
-      </form>
-    </div>
-  {% endblock %}
+{% block body %}
+<div class="form-wrapper login-form-container">
+  {% if error %}
+  <p class=error><strong>Error:</strong> {{ error }}</p>
+  {% endif %}
+  <form class="form login-form" method="post">
+    <input type="text" id="username" name="username" placeholder="Username">
+    <input type="password" id="Password" name="password" placeholder="Password">
+    <button type="submit" class="button" name="signup-button">Login</button>
+  </form>
+</div>
+{% endblock %}
