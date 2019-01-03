@@ -8,6 +8,7 @@ Flask-Login==0.4.1
 Flask-SocketIO==3.0.2
 Flask-SQLAlchemy==2.3.2
 greenlet==0.4.15
+gunicorn==19.9.0
 idna==2.7
 itsdangerous==1.1.0
 Jinja2==2.10
