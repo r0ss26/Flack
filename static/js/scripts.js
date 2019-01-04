@@ -10,6 +10,7 @@ $(document).ready(function () {
   /* Once the client has connected to the websocket, add functionality for the buttons
   to change channels and post message */
   socket.on('connect', function () {
+    console.log('client connected')
     // Let the server know which room the user is in
     socket.emit('join', { 'username': $('#username').html(), 'room': room })
 
