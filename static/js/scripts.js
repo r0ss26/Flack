@@ -7,12 +7,13 @@ $(document).ready(function () {
   // Connect to websocket
   var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port, { transports: ['websocket'] })
 
+  // Let the server know which room the user is in
+  socket.emit('join', { 'username': $('#username').html(), 'room': room })
+
   /* Once the client has connected to the websocket, add functionality for the buttons
   to change channels and post message */
   socket.on('connect', function () {
     console.log('client connected')
-    // Let the server know which room the user is in
-    socket.emit('join', { 'username': $('#username').html(), 'room': room })
 
     // Add event listeners to the channel buttons to allow the user to change channels
     document.querySelectorAll('.channel').forEach(channel => {
