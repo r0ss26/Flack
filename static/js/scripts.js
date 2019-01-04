@@ -5,7 +5,7 @@ $(document).ready(function () {
   var room = document.location.href.split('/').pop()
 
   // Connect to websocket
-  var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port, { transports: ['websocket']} 
+  var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port, { transports: ['websocket'] })
 
   /* Once the client has connected to the websocket, add functionality for the buttons
   to change channels and post message */
