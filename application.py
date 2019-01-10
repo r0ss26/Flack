@@ -217,12 +217,12 @@ def on_join(data):
     room = data['room']
     join_room(room)
     data['message'] = 'joined the room'
-    emit('announce post', data, room=room, broadcast=True)
+    emit('join room', data, room=room, broadcast=True)
 
 # Anounce when a user leaves a chatroom
 @socketio.on('leave')
 def on_leave(data):
     room = data['room']   
     data['message'] = 'has left the room' 
-    emit('announce post', data, room=room, broadcast=True)
+    emit('leave room', data, room=room, broadcast=True)
     leave_room(room)

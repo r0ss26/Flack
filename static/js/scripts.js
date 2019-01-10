@@ -8,7 +8,7 @@ $(document).ready(function () {
   var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port, { transports: ['websocket'] })
 
   // Let the server know which room the user is in
-  socket.emit('join', { 'username': $('#username').html(), 'room': room })
+  socket.emit('join', { 'username': $('#username').text(), 'room': room })
 
   /* Once the client has connected to the websocket, add functionality for the buttons
   to change channels and post message */
@@ -18,7 +18,7 @@ $(document).ready(function () {
     // Add event listeners to the channel buttons to allow the user to change channels
     document.querySelectorAll('.channel').forEach(channel => {
       channel.onclick = () => {
-        socket.emit('leave', { 'username': $('#username').html(), 'room': room })
+        socket.emit('leave', { 'username': $('#username').text(), 'room': room })
         room = channel.textContent
         window.location.href = room
       }
@@ -57,4 +57,55 @@ $(document).ready(function () {
     div.append(usernameSpan)
     div.append(messageSpan)
   })
+
+  // When a user joins a room announce it to the users in the room
+  socket.on('join room', data => {
+    // Create a div to contain the message, username and timestamp
+    const div = document.createElement('div')
+    div.className = 'message'
+    document.querySelector('.message_body').append(div)
+
+    // span to contain the username
+    const usernameSpan = document.createElement('span')
+    usernameSpan.innerHTML = data['username']
+
+    // span to contain the message
+    const messageSpan = document.createElement('span')
+    messageSpan.innerHTML = `${data['message']}`
+
+    // span to contain the timestamp
+    const datetimeSpan = document.createElement('span')
+    datetimeSpan.innerHTML = '(' + moment().calendar() + ') '
+
+    // add the timestamp, username and message to the div
+    div.append(datetimeSpan)
+    div.append(usernameSpan)
+    div.append(messageSpan)
+  })
+
+  // When a user joins a room announce it to the users in the room
+  socket.on('leave room', data => {
+    // Create a div to contain the message, username and timestamp
+    const div = document.createElement('div')
+    div.className = 'message'
+    document.querySelector('.message_body').append(div)
+
+    // span to contain the username
+    const usernameSpan = document.createElement('span')
+    usernameSpan.innerHTML = data['username']
+
+    // span to contain the message
+    const messageSpan = document.createElement('span')
+    messageSpan.innerHTML = `${data['message']}`
+
+    // span to contain the timestamp
+    const datetimeSpan = document.createElement('span')
+    datetimeSpan.innerHTML = '(' + moment().calendar() + ') '
+
+    // add the timestamp, username and message to the div
+    div.append(datetimeSpan)
+    div.append(usernameSpan)
+    div.append(messageSpan)
+  })
+
 })
