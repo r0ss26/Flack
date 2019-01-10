@@ -34,7 +34,7 @@ if not os.environ.get('DATABASE_URL'):
 socketio = SocketIO(app)
 
 # Retrieve message channels from database
-channels = ['General Chat']
+channels = []
 for channel in db_session.query(Channel).all():
     channels.append(channel.channel)
 
