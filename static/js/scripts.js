@@ -33,6 +33,8 @@ $(document).ready(function () {
 
   // When a user posts a message, add it to the body
   socket.on('announce post', data => {
+    console.log('message announced')
+
     // Create a div to contain the message, username and timestamp
     const div = document.createElement('div')
     div.className = 'message'
