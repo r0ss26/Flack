@@ -75,6 +75,10 @@ def display_channel(channel):
         # Get users channel name input
         channel_name = request.form.get('channel-name')
 
+        if ' ' in channel_name:
+            error = ' Channels must not contain spaces'
+            return render_template('main.html', error=error, channels=channels)
+
         # Add this channel to the database
         try:
             new_channel = Channel(channel=channel_name, created_by=session.get('userid'))
