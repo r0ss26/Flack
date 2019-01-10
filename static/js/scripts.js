@@ -27,7 +27,7 @@ $(document).ready(function () {
     // When the user posts a message emit the message to the server
     document.querySelector('#send-message').onclick = () => {
       const message = document.querySelector('#message').value
-      socket.emit('submit post', { 'message': message, 'room': room })
+      socket.emit('submit post', { 'username': $('#username').text(), 'message': message, 'room': room })
     }
   })
 
@@ -42,7 +42,7 @@ $(document).ready(function () {
 
     // span to contain the username
     const usernameSpan = document.createElement('span')
-    usernameSpan.innerHTML = $('#username').html() + ': '
+    usernameSpan.innerHTML = data['username']
 
     // span to contain the message
     const messageSpan = document.createElement('span')
