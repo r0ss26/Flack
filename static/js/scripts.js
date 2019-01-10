@@ -57,7 +57,7 @@ $(document).ready(function () {
     // When the user posts a message emit the message to the server
     document.querySelector('#send-message').onclick = () => {
       const message = document.querySelector('#message-text-input').value
-      $('#message-text-input').value = ''
+      $('#message-text-input').val('')
       socket.emit('submit post', { 'username': $('#username').text(), 'message': message, 'room': room })
     }
   })
