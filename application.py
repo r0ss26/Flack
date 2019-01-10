@@ -17,8 +17,14 @@ app.jinja_env.globals['momentjs'] = momentjs
 
 # Make sessions permanent
 @app.before_request
-def make_session_permanent():
+def before_request():
     session.permanent = True
+    # Force https (src: https://stackoverflow.com/questions/32237379/python-flask-redirect-to-https-from-http)
+    if request.url.startswith('http://'):
+        url = request.url.replace('http://', 'https://', 1)
+        code = 301
+        return redirect(url, code=code)
+
 
 # Configure database connection
 if not os.environ.get('DATABASE_URL'):

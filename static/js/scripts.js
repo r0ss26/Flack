@@ -2,8 +2,8 @@
 
 // This file implemts client-side websocket functionality
 
-// Given a username and a message to display this function formats the contents
-// and adds it to the DOM
+// Given a username and a message to display this function formats
+// the contents and adds it to the DOM
 function displayMessage (user, message) {
   // Create a div to contain the message, username and timestamp
   const div = document.createElement('div')
@@ -36,6 +36,8 @@ $(document).ready(function () {
 
   // Let the server know which room the user is in
   socket.emit('join', { 'username': $('#username').text(), 'room': room })
+
+  $('.message_body').animate({ scrollTop: $('#div1')[0].scrollHeight - $('#div1')[0].clientHeight }, 1000)
 
   /* Once the client has connected to the websocket, add functionality for the buttons
   to change channels and post message */
@@ -70,7 +72,7 @@ $(document).ready(function () {
   // When a user joins a room announce it to the users in the room
   socket.on('join room', data => {
     const user = data['username']
-    console.log(user + 'has joined the room')
+    console.log(user + ' has joined the room')
     const message = 'joined the room'
     displayMessage(user, message)
   })
@@ -78,7 +80,7 @@ $(document).ready(function () {
   // When a user joins a room announce it to the users in the room
   socket.on('leave room', data => {
     const user = data['username']
-    console.log(user + 'has left the room')    
+    console.log(user + ' has left the room')
     const message = 'left the room'
     displayMessage(user, message)
   })
