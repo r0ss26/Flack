@@ -13,6 +13,8 @@ $(document).ready(function () {
     modal.style.display = 'block'
   }
 
+  $('#channel-name').focus()
+
   // When the user clicks on <span> (x), close the modal
   span.onclick = function () {
     modal.style.display = 'none'
