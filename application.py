@@ -84,7 +84,6 @@ def display_channel(channel):
             db_session.add(new_channel)
             db_session.commit()
             channels.append(channel_name)
-            print(channels)
 
             # Take the user back to the chatroom
             return redirect(url_for("display_channel", channel=channel_name))
