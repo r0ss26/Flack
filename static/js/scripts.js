@@ -26,6 +26,9 @@ function displayMessage (user, message) {
   div.append(datetimeSpan)
   div.append(usernameSpan)
   div.append(messageSpan)
+
+  // Auto scroll to see most recent message
+  $('.message_body').animate({ scrollTop: $('.message_body')[0].scrollHeight }, 1000)
 }
 
 $(document).ready(function () {
@@ -83,5 +86,6 @@ $(document).ready(function () {
     displayMessage(user, message)
   })
 
+  // Auto scroll to see most recent messages
   $('.message_body').animate({ scrollTop: $('.message_body')[0].scrollHeight }, 1000)
 })
