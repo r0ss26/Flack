@@ -37,8 +37,6 @@ $(document).ready(function () {
   // Let the server know which room the user is in
   socket.emit('join', { 'username': $('#username').text(), 'room': room })
 
-  $('.message_body').animate({ scrollTop: $('.message_body')[0].scrollHeight - $('.message_body')[0].clientHeight }, 1000)
-
   /* Once the client has connected to the websocket, add functionality for the buttons
   to change channels and post message */
   socket.on('connect', function () {
@@ -84,4 +82,6 @@ $(document).ready(function () {
     const message = 'left the room'
     displayMessage(user, message)
   })
+
+  $('.message_body').animate({ scrollTop: $('.message_body')[0].scrollHeight }, 1000)
 })
