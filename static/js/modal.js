@@ -11,9 +11,8 @@ $(document).ready(function () {
   // When the user clicks on the add channel button, open the modal
   btn.onclick = function () {
     modal.style.display = 'block'
+    $('#channel-name').focus()
   }
-
-  $('#channel-name').focus()
 
   // When the user clicks on <span> (x), close the modal
   span.onclick = function () {
