@@ -1,6 +1,33 @@
 /* global $, io, location, moment */
 
 // This file implemts client-side websocket functionality
+
+// Given a username and a message to display this function formats the contents
+// and adds it to the DOM
+function displayMessage (user, message) {
+  // Create a div to contain the message, username and timestamp
+  const div = document.createElement('div')
+  div.className = 'message'
+  document.querySelector('.message_body').append(div)
+
+  // span to contain the username
+  const usernameSpan = document.createElement('span')
+  usernameSpan.innerHTML = user + ': '
+
+  // span to contain the message
+  const messageSpan = document.createElement('span')
+  messageSpan.innerHTML = message
+
+  // span to contain the timestamp
+  const datetimeSpan = document.createElement('span')
+  datetimeSpan.innerHTML = '(' + moment().calendar() + ') '
+
+  // add the timestamp, username and message to the div
+  div.append(datetimeSpan)
+  div.append(usernameSpan)
+  div.append(messageSpan)
+}
+
 $(document).ready(function () {
   var room = document.location.href.split('/').pop()
 
@@ -35,77 +62,24 @@ $(document).ready(function () {
   socket.on('announce post', data => {
     console.log('message announced')
 
-    // Create a div to contain the message, username and timestamp
-    const div = document.createElement('div')
-    div.className = 'message'
-    document.querySelector('.message_body').append(div)
-
-    // span to contain the username
-    const usernameSpan = document.createElement('span')
-    usernameSpan.innerHTML = data['username']
-
-    // span to contain the message
-    const messageSpan = document.createElement('span')
-    messageSpan.innerHTML = `${data['message']}`
-
-    // span to contain the timestamp
-    const datetimeSpan = document.createElement('span')
-    datetimeSpan.innerHTML = '(' + moment().calendar() + ') '
-
-    // add the timestamp, username and message to the div
-    div.append(datetimeSpan)
-    div.append(usernameSpan)
-    div.append(messageSpan)
+    const user = data['username']
+    const message = data['message']
+    displayMessage(user, message)
   })
 
   // When a user joins a room announce it to the users in the room
   socket.on('join room', data => {
-    // Create a div to contain the message, username and timestamp
-    const div = document.createElement('div')
-    div.className = 'message'
-    document.querySelector('.message_body').append(div)
-
-    // span to contain the username
-    const usernameSpan = document.createElement('span')
-    usernameSpan.innerHTML = data['username']
-
-    // span to contain the message
-    const messageSpan = document.createElement('span')
-    messageSpan.innerHTML = `${data['message']}`
-
-    // span to contain the timestamp
-    const datetimeSpan = document.createElement('span')
-    datetimeSpan.innerHTML = '(' + moment().calendar() + ') '
-
-    // add the timestamp, username and message to the div
-    div.append(datetimeSpan)
-    div.append(usernameSpan)
-    div.append(messageSpan)
+    const user = data['username']
+    console.log(user + 'has joined the room')
+    const message = 'joined the room'
+    displayMessage(user, message)
   })
 
   // When a user joins a room announce it to the users in the room
   socket.on('leave room', data => {
-    // Create a div to contain the message, username and timestamp
-    const div = document.createElement('div')
-    div.className = 'message'
-    document.querySelector('.message_body').append(div)
-
-    // span to contain the username
-    const usernameSpan = document.createElement('span')
-    usernameSpan.innerHTML = data['username']
-
-    // span to contain the message
-    const messageSpan = document.createElement('span')
-    messageSpan.innerHTML = `${data['message']}`
-
-    // span to contain the timestamp
-    const datetimeSpan = document.createElement('span')
-    datetimeSpan.innerHTML = '(' + moment().calendar() + ') '
-
-    // add the timestamp, username and message to the div
-    div.append(datetimeSpan)
-    div.append(usernameSpan)
-    div.append(messageSpan)
+    const user = data['username']
+    console.log(user + 'has left the room')    
+    const message = 'left the room'
+    displayMessage(user, message)
   })
-
 })
