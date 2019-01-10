@@ -13,7 +13,7 @@
     <span class="close">&times;</span>
     <form action="{{ url_for('display_channel', channel=channels[0]) }}" method="post">
       <input type="text" name="channel-name" id="channel-name" placeholder="Channel Name">
-      <button id="channel_button" type="submit" for="channel-name" name="channel-button" class="button">Create</button>
+      <button id="channel-button" type="submit" for="channel-name" name="channel-button" class="button">Create</button>
     </form>
   </div>
 </div>
@@ -41,7 +41,7 @@
       {% endfor %}
     </div>
     <div class="enter-message">
-      <textarea id="message" name="message" placeholder="Type your message" rows="8" cols="120"></textarea>
+      <input id="message-text-input" type="text" placeholder="type your message">
       <button id="send-message" type="submit" class="button" name="button" for="message">Send</button>
     </div>
   </div>

@@ -4,3 +4,7 @@ __pycache__
 project_2
 .swp
 activate.txt
+application.pyc
+database.pyc
+models.pyc
+momentjs.pyc

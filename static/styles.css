@@ -83,13 +83,13 @@ textarea {
 }
 
 #send-message {
-  margin-bottom: 20px;
+  margin: 10px 0 0 0;
 }
 
 .enter-message {
-  bottom: 0;
+  width: 100%;
   position: absolute;
-  text-align: center;
+  text-align: left;
 }
 
 .add_channel{
@@ -228,7 +228,7 @@ a {cursor: pointer;}
 
 #message {border-radius: 5px;}
 
-.message{
+.message {
   background-color: #BCCCE4;
   border-radius: 5px;
   margin: 10px;
@@ -236,3 +236,21 @@ a {cursor: pointer;}
   width: auto;
   word-wrap: break-word;
 }
+
+#message-text-input {
+  margin: 20px;
+  display: inline;
+  border-radius: 15px;
+  padding: 20px;
+  width: 50%;
+}
+
+#channel-button:hover {background-color: #9d66c9;}
+
+#send-message:hover {background-color: #9d66c9;}
+
+.intro-button:hover {background-color: #9d66c9;}
+
+.channel:hover {background-color: #73bef0;}
+
+#add-channel:hover {background-color: #a8e888;}
