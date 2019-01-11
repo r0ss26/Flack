@@ -12,7 +12,7 @@ and manipulation.
 
 ## URL
 
-https://cs50flack.herokuapp.com
+https://flackchat.herokuapp.com
 
 ## Files
 
